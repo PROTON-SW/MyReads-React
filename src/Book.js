@@ -17,15 +17,7 @@ class Book extends Component {
               }}
             />
             <div className="book-shelf-changer">
-              <select>
-                <option value="move" disabled>
-                  Move to...
-                </option>
-                <option value="currentlyReading">Currently Reading</option>
-                <option value="wantToRead">Want to Read</option>
-                <option value="read">Read</option>
-                <option value="none">None</option>
-              </select>
+              {bookShelfChanger(bookInfo.shelf)}
             </div>
           </div>
           <div className="book-title">{bookInfo.title}</div>
@@ -36,4 +28,40 @@ class Book extends Component {
   }
 }
 
+function bookShelfChanger(currentShelf) {
+  if (currentShelf === "currentlyReading") {
+    return (
+      <select>
+        <option value="move" disabled>
+          Move to...
+        </option>
+        <option value="wantToRead">Want to Read</option>
+        <option value="read">Read</option>
+        <option value="none">None</option>
+      </select>
+    );
+  } else if (currentShelf === "wantToRead") {
+    return (
+      <select>
+        <option value="move" disabled>
+          Move to...
+        </option>
+        <option value="currentlyReading">Currently Reading</option>
+        <option value="read">Read</option>
+        <option value="none">None</option>
+      </select>
+    );
+  } else if (currentShelf === "read") {
+    return (
+      <select>
+        <option value="move" disabled>
+          Move to...
+        </option>
+        <option value="currentlyReading">Currently Reading</option>
+        <option value="wantToRead">Want to Read</option>
+        <option value="none">None</option>
+      </select>
+    );
+  }
+}
 export default Book;
