@@ -6,14 +6,19 @@ import SearchBar from "./SearchBar.js";
 import Shelf from "./Shelf.js";
 
 class BooksApp extends React.Component {
-  state = {};
+  state = {
+    books: [],
+  };
 
   componentDidMount() {
     BooksAPI.getAll().then((data) => this.setState({ books: data }));
   }
+  updateShelf = (book,value) => {
+    BooksAPI.update(book, value);
+    BooksAPI.getAll().then((data) => this.setState({ books: data }));
+  };
 
   render() {
-    console.log(this.state.books);
     return (
       <div className="app">
         <Routes>
@@ -27,6 +32,7 @@ class BooksApp extends React.Component {
                 </div>
                 <Shelf
                   shelfName="Currently Reading"
+                  updateShelf={this.updateShelf}
                   books={
                     this.state.books &&
                     this.state.books.filter(
@@ -36,6 +42,7 @@ class BooksApp extends React.Component {
                 />
                 <Shelf
                   shelfName="Want to Read"
+                  updateShelf={this.updateShelf}
                   books={
                     this.state.books &&
                     this.state.books.filter(
@@ -45,6 +52,7 @@ class BooksApp extends React.Component {
                 />
                 <Shelf
                   shelfName="Read"
+                  updateShelf={this.updateShelf}
                   books={
                     this.state.books &&
                     this.state.books.filter((book) => book.shelf === "read")
