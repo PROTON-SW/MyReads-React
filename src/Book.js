@@ -11,7 +11,7 @@ class Book extends Component {
   bookShelfChanger = (currentShelf) => {
     if (currentShelf === "currentlyReading") {
       return (
-        <select onChange={this.change} value='move'>
+        <select onChange={this.change} value="move">
           <option value="move" disabled>
             Move to...
           </option>
@@ -22,7 +22,7 @@ class Book extends Component {
       );
     } else if (currentShelf === "wantToRead") {
       return (
-        <select onChange={this.change} value='move'>
+        <select onChange={this.change} value="move">
           <option value="move" disabled>
             Move to...
           </option>
@@ -33,7 +33,7 @@ class Book extends Component {
       );
     } else if (currentShelf === "read") {
       return (
-        <select onChange={this.change} value='move'>
+        <select onChange={this.change} value="move">
           <option value="move" disabled>
             Move to...
           </option>
@@ -42,31 +42,33 @@ class Book extends Component {
           <option value="none">None</option>
         </select>
       );
+    } else {
+      return null;
     }
   };
 
   render() {
     const { book } = this.state;
     return (
-      <li key={book.id.toString()}>
-        <div className="book">
-          <div className="book-top">
-            <div
-              className="book-cover"
-              style={{
-                width: 128,
-                height: 193,
-                backgroundImage: `url(${book.imageLinks.smallThumbnail})`,
-              }}
-            />
-            <div className="book-shelf-changer">
-              {this.bookShelfChanger(book.shelf)}
-            </div>
+      <div className="book">
+        <div className="book-top">
+          <div
+            className="book-cover"
+            style={{
+              width: 128,
+              height: 193,
+              backgroundImage: `url(${book.imageLinks.smallThumbnail})`,
+            }}
+          />
+          <div className="book-shelf-changer">
+            {this.bookShelfChanger(book.shelf)}
           </div>
-          <div className="book-title">{book.title}</div>
-          <div className="book-authors">{book.authors[0]}</div>
         </div>
-      </li>
+        <div className="book-title">{book.title}</div>
+        <div className="book-authors">
+          {book.authors ? book.authors[0] : ""}
+        </div>
+      </div>
     );
   }
 }
