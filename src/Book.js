@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import "./App.css";
 
 class Book extends Component {
   state = {
@@ -43,7 +42,16 @@ class Book extends Component {
         </select>
       );
     } else {
-      return null;
+      return (
+        <select onChange={this.change} value="move">
+          <option value="move" disabled>
+            Move to...
+          </option>
+          <option value="currentlyReading">Currently Reading</option>
+          <option value="wantToRead">Want to Read</option>
+          <option value="read">Read</option>
+        </select>
+      );
     }
   };
 
@@ -57,7 +65,9 @@ class Book extends Component {
             style={{
               width: 128,
               height: 193,
-              backgroundImage: `url(${book.imageLinks.smallThumbnail})`,
+              backgroundImage: `url(${
+                book.imageLinks.smallThumbnail
+              })`,
             }}
           />
           <div className="book-shelf-changer">

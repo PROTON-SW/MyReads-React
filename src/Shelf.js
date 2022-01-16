@@ -1,10 +1,8 @@
-import React, { Component } from "react";
+import React from "react";
 import Book from "./Book.js";
-import "./App.css";
 
-class Shelf extends Component {
-  render() {
-    const { shelfName, updateShelf, books } = this.props;
+function Shelf (props) {
+    const { shelfName, updateShelf, books } = props;
     return (
       <div className="bookshelf">
         <h2 className="bookshelf-title">{shelfName}</h2>
@@ -21,6 +19,5 @@ class Shelf extends Component {
       </div>
     );
   }
-}
 
 export default Shelf;

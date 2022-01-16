@@ -1,9 +1,9 @@
 import React from "react";
-import * as BooksAPI from "./BooksAPI";
-import "./App.css";
 import { Routes, Route, Link } from "react-router-dom";
+import * as BooksAPI from "./BooksAPI";
 import SearchBar from "./SearchBar.js";
 import Shelf from "./Shelf.js";
+import "./App.css";
 
 class BooksApp extends React.Component {
   state = {
@@ -16,7 +16,6 @@ class BooksApp extends React.Component {
   updateShelf = (book, value) => {
     BooksAPI.update(book, value);
     BooksAPI.getAll().then((data) => this.setState({ books: data }));
-    this.forceUpdate();
   };
 
   render() {

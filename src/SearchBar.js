@@ -1,25 +1,31 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import "./App.css";
 import * as BooksAPI from "./BooksAPI";
+import Book from "./Book.js";
+import "./App.css";
 
 class SearchBar extends Component {
+  constructor(props) {
+    super(props);
+    this.updateQuery = this.updateQuery.bind(this);
+    this.input = React.createRef();
+  }
   state = {
+    books: [],
     query: "",
   };
 
   updateQuery = (query) => {
     this.setState({ query: query });
-    BooksAPI.search(this.state.query).then((data) => {
-      if (data.error) {
-        this.setState({ books: [] });
-      } else {
+    BooksAPI.search(this.state.query)
+      .then((data) => {
         this.setState({ books: data });
-      }
-    });
+      })
+      .catch((err) => {
+        alert(err);
+      });
   };
   render() {
-    console.log(this.state.books);
     return (
       <div className="search-books">
         <div className="search-books-bar">
@@ -28,36 +34,25 @@ class SearchBar extends Component {
           </Link>
           <div className="search-books-input-wrapper">
             <input
+              ref={this.input}
               value={this.state.query}
               type="text"
               placeholder="Search by title or author"
               onChange={(event) => this.updateQuery(event.target.value)}
             />
-            <ol className="books-grid">
-              {this.state.books &&
-                this.state.books.map((book) => (
-                  <li key={book.id}>
-                    <button
-                      onClick={() => {
-                        this.props.addBook(book, "wantToRead");
-                      }}
-                    >
-                      <div
-                        className="book-cover"
-                        style={{
-                          width: 128,
-                          height: 193,
-                          backgroundImage: `url(${book.imageLinks.smallThumbnail})`,
-                        }}
-                      />
-                    </button>
-                  </li>
-                ))}
-            </ol>
           </div>
         </div>
         <div className="search-books-results">
-          <ol className="books-grid" />
+          <ol className="books-grid">
+            {Array.isArray(this.state.books) &&
+              this.state.books
+                .filter((book) => ("imageLinks" in book))
+                .map((book) => (
+                  <li key={book.id}>
+                    <Book bookInfo={book} update={this.props.addBook} />
+                  </li>
+                ))}
+          </ol>
         </div>
       </div>
     );
