@@ -17,13 +17,17 @@ class SearchBar extends Component {
 
   updateQuery = (query) => {
     this.setState({ query: query });
-    BooksAPI.search(this.state.query)
-      .then((data) => {
-        this.setState({ books: data });
-      })
-      .catch((err) => {
-        alert(err);
-      });
+    if (this.state.query === "") {
+      this.setState({ books: [] });
+    } else {
+      BooksAPI.search(this.state.query)
+        .then((data) => {
+          this.setState({ books: data });
+        })
+        .catch((err) => {
+          alert("Book not found");
+        });
+    }
   };
   render() {
     return (
@@ -46,7 +50,7 @@ class SearchBar extends Component {
           <ol className="books-grid">
             {Array.isArray(this.state.books) &&
               this.state.books
-                .filter((book) => ("imageLinks" in book))
+                .filter((book) => "imageLinks" in book)
                 .map((book) => (
                   <li key={book.id}>
                     <Book bookInfo={book} update={this.props.addBook} />

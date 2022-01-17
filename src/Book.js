@@ -43,13 +43,14 @@ class Book extends Component {
       );
     } else {
       return (
-        <select onChange={this.change} value="move">
+        <select onChange={this.change} value={currentShelf}>
           <option value="move" disabled>
             Move to...
           </option>
           <option value="currentlyReading">Currently Reading</option>
           <option value="wantToRead">Want to Read</option>
           <option value="read">Read</option>
+          <option value="none">None</option>
         </select>
       );
     }
@@ -71,12 +72,12 @@ class Book extends Component {
             }}
           />
           <div className="book-shelf-changer">
-            {this.bookShelfChanger(book.shelf)}
+            {this.bookShelfChanger('shelf' in book ? book.shelf:'none')}
           </div>
         </div>
         <div className="book-title">{book.title}</div>
         <div className="book-authors">
-          {book.authors ? book.authors[0] : ""}
+          {"authors" in book ? book.authors[0] : ""}
         </div>
       </div>
     );
