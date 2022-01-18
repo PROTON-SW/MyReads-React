@@ -71,7 +71,7 @@ class BooksApp extends React.Component {
           />
           <Route
             path="/search"
-            element={<SearchBar addBook={this.updateShelf} />}
+            element={<SearchBar mainBooks={this.state.books} addBook={this.updateShelf} />}
           />
         </Routes>
       </div>

@@ -22,6 +22,18 @@ class SearchBar extends Component {
     } else {
       BooksAPI.search(this.state.query)
         .then((data) => {
+          let books = data;
+          books.forEach((book) => {
+            let mainBooks = this.props.mainBooks.filter(
+              (mainBook) => book.id === mainBook.id
+            );
+            if(mainBooks.length > 0) {
+              book.shelf = mainBooks[0].shelf
+            } else{
+              book.shelf='none';
+            }
+          });
+
           this.setState({ books: data });
         })
         .catch((err) => {
@@ -48,7 +60,7 @@ class SearchBar extends Component {
         </div>
         <div className="search-books-results">
           <ol className="books-grid">
-            {Array.isArray(this.state.books) &&
+            {this.state.query !=='' &&
               this.state.books
                 .filter((book) => "imageLinks" in book)
                 .map((book) => (
